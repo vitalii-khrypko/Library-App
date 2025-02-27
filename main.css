@@ -109,3 +109,81 @@ h1, h2 {
 .author-item .details:hover {
     background: #138496;
 }
+
+/* Нові стилі для секції "Деталі автора" */
+#author-details {
+    padding: 15px;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#author-details h3 {
+    color: #333;
+}
+
+#author-details p {
+    color: #555;
+}
+
+#author-details ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#author-details li {
+    background: #e7f1ff;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 5px 0;
+}
+
+.edit-author {
+    background: #ffc107;
+    color: black;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.edit-author:hover {
+    background: #e0a800;
+}
+
+.delete-author {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-right: 10px;
+}
+
+.delete-author:hover {
+    background: #c82333;
+}
+
+.view-details {
+    background: #17a2b8;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.view-details:hover {
+    background: #138496;
+}
+
+.author-list {
+    margin-bottom: 20px;
+}
