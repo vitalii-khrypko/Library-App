@@ -25,7 +25,10 @@ export class AuthorsController {
 
     async searchAuthor() {
         const query = this.view.searchInput.value.trim();
-        if (!query) return;
+        if (!query || query.length < 2) {
+            alert("Будь ласка, введіть ім'я або прізвище автора (не менше 2 символів).");
+            return;
+        }
 
         const url = `https://openlibrary.org/search/authors.json?q=${encodeURIComponent(query)}`;
 

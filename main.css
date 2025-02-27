@@ -9,11 +9,11 @@ body {
 }
 
 .authors {
-    max-width: 500px;
+    max-width: 560px;
 }
 
 .books {
-    max-width: 500px;
+    max-width: 560px;
 }
 
 .container {
@@ -258,6 +258,20 @@ h1, h2 {
 }
 
 .view-details:hover {
+    background: #138496;
+}
+
+.genre-book {
+    background: #17a2b8;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.genre-book:hover {
     background: #138496;
 }
 

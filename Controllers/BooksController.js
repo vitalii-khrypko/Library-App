@@ -5,19 +5,30 @@ export class BooksController {
 
         this.view.addButton.addEventListener("click", () => this.searchBook());
 
+        this.view.searchInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                this.searchBook();
+            }
+        });
+
         this.view.bookList.addEventListener("click", (event) => {
             const index = event.target.dataset.index;
             if (event.target.classList.contains("edit-book")) {
                 this.editBook(index);
             } else if (event.target.classList.contains("delete-book")) {
                 this.deleteBook(index);
+            } else if (event.target.classList.contains("genre-book")) {
+                this.addGenre(index);
             }
         });
     }
 
     async searchBook() {
         const query = this.view.searchInput.value.trim();
-        if (!query) return;
+        if (!query || query.length < 3) {
+            alert("Будь ласка, введіть назву книги (не менше 3 символів).");
+            return;
+        }
 
         try {
             // Пошук книги за назвою
@@ -75,6 +86,7 @@ export class BooksController {
 
             this.model.addBook(book);
             this.view.renderBooks(this.model.getBooks());
+            this.view.clearInput();
         } catch (error) {
             console.error("Помилка при отриманні книги:", error);
         }
@@ -102,6 +114,25 @@ export class BooksController {
         }
         this.model.deleteBook(index);
         this.view.renderBooks(this.model.getBooks());
+    }
+
+    addGenre(index) {
+        const books = this.model.getBooks();
+        if (index < 0 || index >= books.length) {
+            console.warn("Неправильний індекс книги для додавання жанру.");
+            return;
+        }
+
+        const newGenre = this.view.promptForGenre();
+        if (newGenre) {
+            // Перевіряємо, чи жанр вже існує
+            if (!books[index].genre) {
+                books[index].genre = newGenre; // Якщо жанру ще немає, додаємо його
+            } else {
+                books[index].genre += `, ${newGenre}`; // Інакше додаємо новий жанр до існуючого
+            }
+            this.view.renderBooks(books); // Оновлюємо відображення списку книг
+        }
     }
 }
 
