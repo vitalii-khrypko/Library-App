@@ -1,0 +1,111 @@
+@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    text-align: left;
+    color: #333;
+    margin-top: 20px;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#author-search {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #838485;
+    border-radius: 5px;
+    background: #e7f1ff;
+    color: #333;
+}
+
+#author-search:focus {
+    outline: none;
+    border-color: #717273;
+    background: #d6e4ff;
+}
+
+#add-author {
+    background-color: #899097;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#add-author:hover {
+    background-color: #b3b4b5;
+}
+
+#author-list, #author-details {
+    padding: 10px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.author-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.author-item button {
+    margin-left: 5px;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: 0.3s;
+}
+
+.author-item .edit {
+    background: #ffc107;
+    color: black;
+}
+
+.author-item .edit:hover {
+    background: #e0a800;
+}
+
+.author-item .delete {
+    background: #dc3545;
+    color: white;
+}
+
+.author-item .delete:hover {
+    background: #c82333;
+}
+
+.author-item .details {
+    background: #17a2b8;
+    color: white;
+}
+
+.author-item .details:hover {
+    background: #138496;
+}
