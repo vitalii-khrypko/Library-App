@@ -1,4 +1,4 @@
-export class Model {
+export class AuthorsModel {
     constructor() {
         this.authors = [];
     }

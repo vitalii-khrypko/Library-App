@@ -4,6 +4,16 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f0f2f5;
     padding: 20px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.authors {
+    max-width: 500px;
+}
+
+.books {
+    max-width: 500px;
 }
 
 .container {
@@ -36,6 +46,15 @@ h1, h2 {
     color: #333;
 }
 
+#book-search {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #838485;
+    border-radius: 5px;
+    background: #e7f1ff;
+    color: #333;
+}
+
 #author-search:focus {
     outline: none;
     border-color: #717273;
@@ -52,11 +71,39 @@ h1, h2 {
     transition: background 0.3s;
 }
 
+#books-search:focus {
+    outline: none;
+    border-color: #717273;
+    background: #d6e4ff;
+}
+
+#add-book {
+    background-color: #899097;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
 #add-author:hover {
     background-color: #b3b4b5;
 }
 
+#add-book:hover {
+    background-color: #b3b4b5;
+}
+
 #author-list, #author-details {
+    padding: 10px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#book-list {
     padding: 10px;
     background: #ffffff;
     border: 1px solid #ddd;
@@ -110,7 +157,6 @@ h1, h2 {
     background: #138496;
 }
 
-/* Нові стилі для секції "Деталі автора" */
 #author-details {
     padding: 15px;
     background: #f8f9fa;
@@ -155,6 +201,22 @@ h1, h2 {
     background: #e0a800;
 }
 
+.edit-book {
+    background: #ffc107;
+    color: black;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.edit-book:hover {
+    background: #e0a800;
+}
+
 .delete-author {
     background: #dc3545;
     color: white;
@@ -167,6 +229,21 @@ h1, h2 {
 }
 
 .delete-author:hover {
+    background: #c82333;
+}
+
+.delete-book {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-right: 10px;
+}
+
+.delete-book:hover {
     background: #c82333;
 }
 

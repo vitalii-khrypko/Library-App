@@ -1,4 +1,4 @@
-export class View {
+export class AuthorsView {
     constructor() {
         this.authorList = document.getElementById("author-list");
         this.addButton = document.getElementById("add-author");
@@ -12,7 +12,7 @@ export class View {
             const row = document.createElement("div");
             row.className = "author-list";
             row.innerHTML = `
-                <span>${author.firstName} ${author.lastName} (${author.bookCount} books)</span>
+                <span>${author.firstName} ${author.lastName} (${author.bookCount} книги)</span>
                 <button class="edit-author" data-index="${index}">Редагувати</button>
                 <button class="delete-author" data-index="${index}">Видалити</button>
                 <button class="view-details" data-id="${author.key}">Деталі</button>

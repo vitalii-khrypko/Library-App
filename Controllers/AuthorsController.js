@@ -1,4 +1,4 @@
-export class Controller {
+export class AuthorsController {
     constructor(model, view) {
         this.model = model;
         this.view = view;
@@ -54,15 +54,20 @@ export class Controller {
     }
 
     async editAuthor(index) {
-        const author = this.model.getAuthors()[index];
-        const { newFirstName, newLastName } = this.view.showEditForm(index, author);
+        const authors = this.model.getAuthors();
+        const author = authors[index];
+
+        const newFirstName = prompt("Введіть нове ім'я:", author.firstName);
+        const newLastName = prompt("Введіть нове прізвище:", author.lastName);
 
         if (newFirstName && newLastName) {
-            this.model.authors[index].firstName = newFirstName;
-            this.model.authors[index].lastName = newLastName;
-            this.view.renderAuthors(this.model.getAuthors());
+            authors[index].firstName = newFirstName;
+            authors[index].lastName = newLastName;
+
+            this.view.renderAuthors(authors);
         }
     }
+
 
     deleteAuthor(index) {
         this.model.authors.splice(index, 1);
