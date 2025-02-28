@@ -6,6 +6,7 @@ export class AuthorsView {
         this.detailsSection = document.getElementById("author-details");
     }
 
+    // Renders a list of authors with their information
     renderAuthors(authors) {
         this.authorList.innerHTML = "";
         authors.forEach((author, index) => {
@@ -21,17 +22,19 @@ export class AuthorsView {
         });
     }
 
+    // Deletes an author by index from the list
     deleteAuthor(index) {
         const authorElements = this.authorList.children;
         if (authorElements[index]) {
             authorElements[index].remove();
         }
 
-        // Очищення деталей автора без перевірки dataset.currentAuthorIndex
+        // Clears author details without checking dataset.currentAuthorIndex
         this.detailsSection.innerHTML = "";
         delete this.detailsSection.dataset.currentAuthorIndex;
     }
 
+    // Displays detailed information about a specific author
     showAuthorDetails(authorDetails) {
         this.detailsSection.dataset.currentAuthorKey = authorDetails.key;
         this.detailsSection.innerHTML = `
@@ -52,6 +55,7 @@ export class AuthorsView {
 
         let currentBooksCount = 3;
 
+        // Shows more books when the "Show more" button is clicked
         showMoreButton.addEventListener("click", () => {
             currentBooksCount += 3;
             const newBooks = authorDetails.books.slice(0, currentBooksCount).map(book => `<li>${book.title}</li>`).join('');
@@ -63,6 +67,7 @@ export class AuthorsView {
             showLessButton.style.display = "inline-block";
         });
 
+        // Shows fewer books when the "Show less" button is clicked
         showLessButton.addEventListener("click", () => {
             currentBooksCount = Math.max(currentBooksCount - 3, 3);
             const newBooks = authorDetails.books.slice(0, currentBooksCount).map(book => `<li>${book.title}</li>`).join('');
@@ -73,6 +78,11 @@ export class AuthorsView {
             }
             showMoreButton.style.display = "inline-block";
         });
+    }
+
+    // Clears the search input field
+    clearInput() {
+        this.searchInput.value = "";
     }
 
 }

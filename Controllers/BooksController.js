@@ -3,14 +3,17 @@ export class BooksController {
         this.model = model;
         this.view = view;
 
+        // Add event listener to the "Add Book" button
         this.view.addButton.addEventListener("click", () => this.searchBook());
 
+        // Allow searching by pressing "Enter"
         this.view.searchInput.addEventListener("keypress", (event) => {
             if (event.key === "Enter") {
                 this.searchBook();
             }
         });
 
+        // Handle click events on the book list (edit, delete, add genre)
         this.view.bookList.addEventListener("click", (event) => {
             const index = event.target.dataset.index;
             if (event.target.classList.contains("edit-book")) {
@@ -26,34 +29,34 @@ export class BooksController {
     async searchBook() {
         const query = this.view.searchInput.value.trim();
         if (!query || query.length < 3) {
-            alert("Будь ласка, введіть назву книги (не менше 3 символів).");
+            alert("Please enter a book title (at least 3 characters).");
             return;
         }
 
         try {
-            // Пошук книги за назвою
+            // Search for a book by title
             const searchUrl = `https://openlibrary.org/search.json?title=${encodeURIComponent(query)}`;
             const searchResponse = await fetch(searchUrl);
-            if (!searchResponse.ok) throw new Error("Помилка отримання даних");
+            if (!searchResponse.ok) throw new Error("Error fetching data");
             const searchData = await searchResponse.json();
             if (!searchData.docs || searchData.docs.length === 0) {
-                console.warn("Книга не знайдена");
+                alert("Book not found");
+                this.view.clearInput();
                 return;
             }
             const bookData = searchData.docs[0];
             if (!bookData.key) {
-                console.warn("Книга не має унікального ключа");
+                console.warn("Book does not have a unique key");
                 return;
             }
 
-            // За замовчуванням встановлюємо, що інформації немає
-            let pages = "Немає інформації";
+            // Default value for pages
+            let pages = "No information available";
 
-            // 1. Спробуємо використати дані з результату пошуку
             if (bookData.number_of_pages_median) {
                 pages = bookData.number_of_pages_median;
             } else {
-                // 2. Спробуємо отримати дані про видання
+                // Fetch editions to find the number of pages
                 const editionsUrl = `https://openlibrary.org${bookData.key}/editions.json`;
                 const editionsResponse = await fetch(editionsUrl);
                 if (editionsResponse.ok) {
@@ -67,35 +70,55 @@ export class BooksController {
                 }
             }
 
-            // 3. Отримуємо детальну інформацію про книгу
+            // Fetch detailed book information
             const detailsUrl = `https://openlibrary.org${bookData.key}.json`;
             const detailsResponse = await fetch(detailsUrl);
             let detailsData = {};
+
             if (detailsResponse.ok) {
                 detailsData = await detailsResponse.json();
             }
 
-            // Формуємо об'єкт книги
+            // List of stop words (prepositions and conjunctions)
+            const stopWords = new Set(["of", "in", "on", "at", "by", "with", "about", "against",
+                "between", "into", "through", "during", "before", "after", "above", "below",
+                "to", "from", "up", "down", "out", "over", "under", "again", "further", "then",
+                "once", "because", "so", "although", "while", "for", "nor", "but", "or", "yet", "and"]);
+
+            // Extract genre from subjects
+            const extractGenre = (subjects) => {
+                if (!Array.isArray(subjects) || subjects.length === 0) {
+                    return "No information available";
+                }
+
+                let words = subjects[0].split(" ").slice(0, 3); // Take the first three words
+                if (words.length === 3 && stopWords.has(words[2].toLowerCase())) {
+                    words.pop(); // Remove the third word if it's a preposition/conjunction
+                }
+
+                return words.join(" ");
+            };
+
+            // Create a book object
             const book = {
-                title: bookData.title || "Немає назви",
+                title: bookData.title || "No title available",
                 pages: pages,
-                genre: (Array.isArray(detailsData.subjects) && detailsData.subjects.length > 0)
-                    ? detailsData.subjects[0]
-                    : "Немає інформації"
+                genre: extractGenre(detailsData.subjects)
             };
 
             this.model.addBook(book);
             this.view.renderBooks(this.model.getBooks());
             this.view.clearInput();
+
         } catch (error) {
-            console.error("Помилка при отриманні книги:", error);
+            console.error("Error fetching book:", error);
         }
     }
 
     editBook(index) {
         const books = this.model.getBooks();
         if (index < 0 || index >= books.length) {
-            console.warn("Неправильний індекс книги для редагування.");
+            console.warn("Invalid book index for editing.");
             return;
         }
         const book = books[index];
@@ -109,7 +132,7 @@ export class BooksController {
     deleteBook(index) {
         const books = this.model.getBooks();
         if (index < 0 || index >= books.length) {
-            console.warn("Неправильний індекс книги для видалення.");
+            console.warn("Invalid book index for deletion.");
             return;
         }
         this.model.deleteBook(index);
@@ -119,20 +142,19 @@ export class BooksController {
     addGenre(index) {
         const books = this.model.getBooks();
         if (index < 0 || index >= books.length) {
-            console.warn("Неправильний індекс книги для додавання жанру.");
+            console.warn("Invalid book index for adding a genre.");
             return;
         }
 
         const newGenre = this.view.promptForGenre();
         if (newGenre) {
-            // Перевіряємо, чи жанр вже існує
+            // Check if the genre already exists
             if (!books[index].genre) {
-                books[index].genre = newGenre; // Якщо жанру ще немає, додаємо його
+                books[index].genre = newGenre; // If no genre exists, add it
             } else {
-                books[index].genre += `, ${newGenre}`; // Інакше додаємо новий жанр до існуючого
+                books[index].genre += `, ${newGenre}`; // Otherwise, append the new genre
             }
-            this.view.renderBooks(books); // Оновлюємо відображення списку книг
+            this.view.renderBooks(books); // Update book list rendering
         }
     }
 }
-

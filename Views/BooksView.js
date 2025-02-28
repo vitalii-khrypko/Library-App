@@ -5,6 +5,7 @@ export class BooksView {
         this.addButton = document.getElementById("add-book");
     }
 
+    // Renders a list of books with their details
     renderBooks(books) {
         this.bookList.innerHTML = "";
         books.forEach((book, index) => {
@@ -20,16 +21,19 @@ export class BooksView {
         });
     }
 
+    // Prompts the user to edit the book's title
     showEditForm(index, book) {
         const newTitle = prompt("Введіть нову назву книги:", book.title);
         return newTitle;
     }
 
+    // Prompts the user to input a new genre for the book
     promptForGenre() {
         return prompt("Введіть новий жанр для книги:");
     }
 
+    // Clears the search input field
     clearInput() {
-        this.searchInput.value = ""; // Очищення поля вводу
+        this.searchInput.value = ""; // Clears the input field
     }
 }

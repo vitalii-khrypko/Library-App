@@ -23,6 +23,7 @@ export class AuthorsController {
         });
     }
 
+    // Searches for an author based on the input query
     async searchAuthor() {
         const query = this.view.searchInput.value.trim();
         if (!query || query.length < 2) {
@@ -37,6 +38,12 @@ export class AuthorsController {
             if (!response.ok) throw new Error("Network response was not ok");
 
             const data = await response.json();
+            if (!data.docs || data.docs.length === 0) {
+                alert("Автор не знайдений");
+                this.view.clearInput();
+                return;
+            }
+
             if (data.docs && data.docs.length > 0) {
                 const author = {
                     key: data.docs[0].key,
@@ -56,6 +63,7 @@ export class AuthorsController {
         }
     }
 
+    // Edits an author's details based on their index
     async editAuthor(index) {
         const authors = this.model.getAuthors();
         const author = authors[index];
@@ -71,34 +79,34 @@ export class AuthorsController {
         }
     }
 
-
+    // Deletes an author from the model and updates the view
     deleteAuthor(index) {
         this.model.authors.splice(index, 1);
         this.view.renderAuthors(this.model.getAuthors());
 
-        // Викликаємо метод для очищення деталей
+        // Calls method to clear author details
         this.view.deleteAuthor(index);
     }
 
-
+    // Fetches detailed information about a specific author
     async fetchAuthorDetails(authorKey) {
         try {
-            // Запит для отримання основних даних про автора
+            // Request to get basic author data
             const authorResponse = await fetch(`https://openlibrary.org/authors/${authorKey}.json`);
             if (!authorResponse.ok) throw new Error("Не вдалося отримати деталі автора");
             const authorData = await authorResponse.json();
 
-            // Запит для отримання книг автора
+            // Request to get books by the author
             const booksResponse = await fetch(`https://openlibrary.org/search.json?author=${encodeURIComponent(authorData.name)}`);
             if (!booksResponse.ok) throw new Error("Не вдалося отримати книги автора");
             const booksData = await booksResponse.json();
 
-            // Формуємо список книг
+            // Builds the list of books
             const books = booksData.docs.map(book => ({
                 title: book.title || "Немає назви"
             }));
 
-            // Формуємо деталі автора
+            // Builds the author details object
             const authorDetails = {
                 key: authorData.key,
                 firstName: authorData.name.split(" ")[0] || "Невідомо",
