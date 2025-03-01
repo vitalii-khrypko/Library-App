@@ -51,7 +51,7 @@ export class BooksController {
             }
 
             // Default value for pages
-            let pages = "No information available";
+            let pages = "Немає інформації";
 
             if (bookData.number_of_pages_median) {
                 pages = bookData.number_of_pages_median;
@@ -88,7 +88,7 @@ export class BooksController {
             // Extract genre from subjects
             const extractGenre = (subjects) => {
                 if (!Array.isArray(subjects) || subjects.length === 0) {
-                    return "No information available";
+                    return "Немає інформації";
                 }
 
                 let words = subjects[0].split(" ").slice(0, 3); // Take the first three words
