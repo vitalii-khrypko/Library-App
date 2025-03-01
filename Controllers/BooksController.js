@@ -29,7 +29,7 @@ export class BooksController {
     async searchBook() {
         const query = this.view.searchInput.value.trim();
         if (!query || query.length < 3) {
-            alert("Please enter a book title (at least 3 characters).");
+            alert("Будь ласка, введіть назву книги (не менше 3 символів).");
             return;
         }
 
@@ -40,7 +40,7 @@ export class BooksController {
             if (!searchResponse.ok) throw new Error("Error fetching data");
             const searchData = await searchResponse.json();
             if (!searchData.docs || searchData.docs.length === 0) {
-                alert("Book not found");
+                alert("Книга не знайдена");
                 this.view.clearInput();
                 return;
             }
