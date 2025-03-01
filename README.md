@@ -19,6 +19,16 @@ Library App is a web application that allows users to search for authors and boo
 - **CSS3**: For styling the user interface.
 - **Bootstrap**: A popular front-end framework used for responsive design and pre-styled UI components.
 
+## Architecture
+
+The project follows the **MVC (Model-View-Controller)** architectural pattern:
+
+- **Model**: Manages the data structure and business logic of the application.
+- **View**: Handles the presentation layer and user interface rendering.
+- **Controller**: Connects the Model and View, handling user interactions and updating the UI accordingly.
+
+This architecture ensures better separation of concerns, making the application more scalable and maintainable.
+
 ## Installation
 
 1. Clone the repository to your local machine:
